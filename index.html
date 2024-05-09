@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Poppins:wght@300;400;500;600;700&family=Varela+Round&display=swap" rel="stylesheet">
-    <title>Responsive Landing Page </title>
+    <title>Responsive Landing Page</title>
 </head>
 <body>
     <header>
@@ -28,29 +28,69 @@
     </header>    
 
     <section class="main">
+        <section class="left">
+            <p class="title">Information Technology</p>
+            <p class="msg">Information technology (IT) is the use of any computers, storage, networking and other physical devices, infrastructure and processes to create, process, store, secure and exchange all forms of electronic data.</p>
+            <button id="loginButton" class="cta">Login</button>
+            <form id="logoutForm" action="https://dev-60700936.okta.com/login/signout" method="POST" style="display: none;">
+                <button class="cta" type="submit">Log Out</button>
+            </form>
+        </section>
 
-            <section class="left">
-                <p class="title">Information Technology</p>
-                <p class="msg">Information technology (IT) is the use of any computers, storage, networking and other physical devices, infrastructure and processes to create, process, store, secure and exchange all forms of electronic data.</p>
-                <form id="logoutForm" action="https://dev-60700936.okta.com/login/signout" method="POST">
-                    <button style="margin-left: 50px;" class="cta" type="submit"><a href="https://dev-60700936.okta.com/login/signout">Log Out</a></button>
-                </form>
-            </section>
-
-            <section class="right">
-                <img src="img.svg" alt="Landing Image">
-            </section>
-
+        <section class="right">
+            <img src="img.svg" alt="Landing Image">
+        </section>
     </section>
 
     <script>
-        var menu = document.querySelector('.menu');
-        var menuBtn = document.querySelector('.menu button');
-        menuBtn.addEventListener('click', () => {
-        menu.classList.toggle('opened')
-        })
+        // Function to set a cookie
+        function setCookie(cookieName, cookieValue, expirationDays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (expirationDays * 24 * 60 * 60 * 1000));
+            var expires = "expires="+d.toUTCString();
+            document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
+        }
 
+        // Function to get a cookie value
+        function getCookie(cookieName) {
+            var name = cookieName + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var cookieArray = decodedCookie.split(';');
+            for (var i = 0; i < cookieArray.length; i++) {
+                var cookie = cookieArray[i];
+                while (cookie.charAt(0) == ' ') {
+                    cookie = cookie.substring(1);
+                }
+                if (cookie.indexOf(name) == 0) {
+                    return cookie.substring(name.length, cookie.length);
+                }
+            }
+            return "";
+        }
+
+        // Check if the user is logged in
+        window.onload = function() {
+            var isLoggedIn = getCookie("isLoggedIn");
+            if (isLoggedIn === "true") {
+                document.getElementById("loginButton").style.display = "none";
+                document.getElementById("logoutForm").style.display = "block";
+            }
+        };
+
+        // Function to handle login
+        document.getElementById("loginButton").addEventListener("click", function() {
+            // Simulate login success
+            setCookie("isLoggedIn", "true", 1);
+            // Hide login button and show logout form
+            document.getElementById("loginButton").style.display = "none";
+            document.getElementById("logoutForm").style.display = "block";
+        });
+
+        // Function to handle logout
+        document.getElementById("logoutForm").addEventListener("submit", function() {
+            // Clear the isLoggedIn cookie
+            setCookie("isLoggedIn", "", -1);
+        });
     </script>
-
 </body>
 </html>
